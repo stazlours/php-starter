@@ -1,0 +1,23 @@
+{
+    "name": "stazlours/php-starter",
+    "description": "project dev pour petit site web php",
+    "type": "project",
+    "license": "proprietary",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        },
+        "files": [
+        "app/Routes/web.php"
+    ]
+    },
+    "authors": [
+        {
+            "name": "kayden Staz",
+            "email": "kadensomma@hotmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
+
