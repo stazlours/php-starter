@@ -10,7 +10,12 @@ class HomeController
     {
         View::render('home', [
             'title' => 'Bienvenue',
-            'name'  => 'Stone Starter'
+            'name'  => 'Stone Starter',
+            'items' => [
+                ['name' => 'Item 1', 'status' => 'actif'],
+                ['name' => 'Item 2', 'status' => 'inactif'],
+                ['name' => 'Item 3', 'status' => 'actif'],
+            ]
         ]);
     }
 }
