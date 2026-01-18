@@ -13,6 +13,15 @@
         </p>
 <ul>
 </ul>
+<!-- Solid icon -->
+<i class="fas fa-home text-indigo-600 w-6 h-6"></i>
+
+<!-- Regular icon -->
+<i class="far fa-user text-gray-700 w-5 h-5"></i>
+
+<!-- Brand icon -->
+<i class="fab fa-github text-gray-800 w-5 h-5"></i>
+
 
 @include('partials.footer')
     </div>

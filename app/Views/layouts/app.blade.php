@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>{{ $title ?? 'Starter' }}</title>
+  <link rel="stylesheet" href="/assets/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="/assets/app.css">
 </head>
 
