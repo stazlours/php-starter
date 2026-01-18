@@ -9,6 +9,9 @@ class View
     protected static array $sections = [];
     protected static ?string $extends = null;
 
+    /**
+     * Render une vue
+     */
     public static function render(string $template, array $data = []): void
     {
         self::$sections = [];
@@ -23,30 +26,28 @@ class View
         $compiled = self::getCompiledPath($template);
         $viewFile = self::getViewFile($template);
 
-        if (!file_exists($compiled) || filemtime($viewFile) > filemtime($compiled)) {
+        // ⚡ Mode dev/prod via .env
+        $env = \App\Core\Env::get('APP_ENV', 'production');
+        $forceRecompile = $env === 'development';
+
+        // Recompile si fichier n'existe pas, si modifié ou si mode dev
+        if (!file_exists($compiled) || filemtime($viewFile) > filemtime($compiled) || $forceRecompile) {
             $content = self::compileView($template);
             file_put_contents($compiled, $content);
         }
 
         ob_start();
         try {
-          // Récupère le contenu compilé
-$compiledContent = file_get_contents($compiled);
-
-// Prépare les variables
-extract($__data, EXTR_SKIP);
-
-// Exécute le code compilé
-eval('?>' . $compiledContent);
-
-
+            $compiledContent = file_get_contents($compiled);
+            extract($__data, EXTR_SKIP);
+            eval('?>' . $compiledContent);
         } catch (\Throwable $e) {
             ob_end_clean();
             throw $e;
         }
+
         echo ob_get_clean();
     }
-
 
     protected static function getViewFile(string $template): string
     {
@@ -87,10 +88,9 @@ eval('?>' . $compiledContent);
         // Includes récursifs
         $content = self::compileIncludes($content);
 
-        // Compiler les echos et directives avec l'ancien système StoneFw
+        // Compiler les echos et directives
         $content = self::compileInline($content);
 
-        // Préparer $__sections
         return "<?php \$__sections = \$__sections ?? []; ?>\n" . $content;
     }
 
@@ -128,25 +128,23 @@ eval('?>' . $compiledContent);
                 return '';
             }
             $incContent = file_get_contents($incFile);
-
-            // Extraire toutes les variables actuelles
             return '<?php $__data = get_defined_vars(); extract($__data); ?>' . self::compileInline($incContent);
         }, $content);
     }
 
     protected static function compileInline(string $content): string
     {
-        // ✅ Raw echo
+        // Raw echo
         $content = preg_replace_callback('/\{!!\s*(.+?)\s*!!\}/s', function ($m) {
             return '<?php echo ' . $m[1] . '; ?>';
         }, $content);
 
-        // ✅ Escaped echo
+        // Escaped echo
         $content = preg_replace_callback('/\{\{\s*(.+?)\s*\}\}/s', function ($m) {
             return '<?php echo htmlspecialchars(' . $m[1] . ', ENT_QUOTES, "UTF-8"); ?>';
         }, $content);
 
-        // ✅ Directives StoneFw
+        // Directives StoneFw
         $directives = [
             '/@if\s*\((.+?)\)/' => '<?php if ($1): ?>',
             '/@elseif\s*\((.+?)\)/' => '<?php elseif ($1): ?>',
@@ -165,5 +163,15 @@ eval('?>' . $compiledContent);
         }
 
         return $content;
+    }
+
+    /**
+     * ⚡ Clear cache complet
+     */
+    public static function clearCache(): void
+    {
+        foreach (glob(self::$cachePath . '/*.php') as $file) {
+            unlink($file);
+        }
     }
 }

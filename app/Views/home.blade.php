@@ -1,11 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+@include('partials.header')
 
 <div data-animate="fade" class="min-h-screen flex items-center justify-center">
     <div class="bg-white p-8 rounded-xl shadow-lg">
         <h1 class="text-3xl font-bold text-indigo-600">
-            🚀 Tailwind 3.4 !
+            🚀 STONE Starter
         </h1>
 
         <p class="mt-4 text-gray-600">
