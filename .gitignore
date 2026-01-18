@@ -23,3 +23,9 @@ Thumbs.db
 
 # Logs
 *.log
+
+/node_modules
+/public/assets/app.css
+/.DS_Store
+
+

@@ -1,0 +1,32 @@
+{
+  "name": "php-starter",
+  "version": "1.0.0",
+  "description": "Une base **PHP ultra légère**, **extensible** et **Blade-like** sans dépendance externe, pour démarrer rapidement vos projets.",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+     "dev": "tailwindcss -i ./resources/css/app.css -o ./public/assets/app.css --watch",
+    "build": "tailwindcss -i ./resources/css/app.css -o ./public/assets/app.css --minify"
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stazlours/php-starter.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/stazlours/php-starter/issues"
+  },
+  "homepage": "https://github.com/stazlours/php-starter#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.4.23",
+    "postcss": "^8.5.6",
+    "tailwindcss": "3.4"
+  }
+}
